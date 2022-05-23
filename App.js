@@ -7,6 +7,7 @@ import HomeScreen from './HomeScreen';
 import NewsScreen from './NewsScreen';
 import SettingsScreen from './SettingsScreen';
 import {Platform} from "react-native";
+import { Ionicons } from '@expo/vector-icons';
 
 const Tab =createBottomTabNavigator();
 
@@ -20,11 +21,39 @@ const { createNavigator} = Platform.select({
 export default function App() {
   return (
     <NavigationContainer>
-      <createNavigator.Navigator>
-      <createNavigator.Screen name="Home" component={HomeScreen}/>
-      <createNavigator.Screen name="News" component={NewsScreen}/>
-      <createNavigator.Screen name="Settings" component={SettingsScreen}/>
-      </createNavigator.Navigator>
+      <Tab.Navigator
+       screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          if (route.name === 'Home') {
+            return (
+              <Ionicons
+                name={
+                  focused
+                    ? 'ios-information-circle'
+                    : 'ios-information-circle-outline'
+                }
+                size={size}
+                color={color}
+              />
+            );
+          } else if (route.name === 'Settings') {
+            return (
+              <Ionicons
+                name={focused ? 'ios-list-box' : 'ios-list'}
+                size={size}
+                color={color}
+              />
+            );
+          }
+        },
+        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: 'tomato',
+      })}
+      >
+        <Tab.Screen name="Home" component={HomeScreen}/>
+        <Tab.Screen name="News" component={NewsScreen}/>
+        <Tab.Screen name="Settings" component={SettingsScreen}/>
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }

@@ -6,19 +6,25 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './HomeScreen';
 import NewsScreen from './NewsScreen';
 import SettingsScreen from './SettingsScreen';
+import {Platform} from "react-native";
 
 const Tab =createBottomTabNavigator();
 
 const Drawer = createDrawerNavigator();
 
+const { createNavigator} = Platform.select({
+  ios: {createNavigator: Tab},
+  android: {createNavigator: Drawer},
+})
+
 export default function App() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator>
-        <Tab.Screen name = "Home" component={HomeScreen}/>
-        <Tab.Screen name = "News" component={NewsScreen}/>
-        <Tab.Screen name = "Settings" component={SettingsScreen}/>
-      </.Navigator>
+      <createNavigator.Navigator>
+      <createNavigator.Screen name="Home" component={HomeScreen}/>
+      <createNavigator.Screen name="News" component={NewsScreen}/>
+      <createNavigator.Screen name="Settings" component={SettingsScreen}/>
+      </createNavigator.Navigator>
     </NavigationContainer>
   );
 }
